@@ -12,14 +12,8 @@ namespace NetDeserializeDemo.Controllers
 
     public class BinaryFormatterController : ApiController
     {
-        [Serializable]
-        public class TestClass
-        {
-
-        }
-
-        // GET api/binaryFormatter/id
-        public string Get(int id)
+        // GET api/binaryFormatter
+        public string Get()
         {
             return "BinaryFormatter Deserialize Vulnerability";
         }
