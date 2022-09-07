@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.IO;
 
 namespace NetDeserializeDemo.Controllers
@@ -26,47 +26,18 @@ namespace NetDeserializeDemo.Controllers
                 case 1:
                     DeserializeData(value);
                     break;
-                case 2:
-                    UnsafeDeserialize(value);
-                    break;
-                case 3:
-                    DeserializeMethodResponse(value);
-                    break;
-                case 4:
-                    UnsafeDerializeMethodResponse(value);
-                    break;
                 default:
                     break;
             }
         }
 
         public object DeserializeData(string data)
-        {        
-            MemoryStream memoryStream = new MemoryStream(System.Convert.FromBase64String(data));
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            return binaryFormatter.Deserialize(memoryStream);
+        {            
+            SoapFormatter soapFormatter = new SoapFormatter();
+            MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(data));
+            return soapFormatter.Deserialize(memoryStream);
         }
 
-        public object UnsafeDeserialize(string data)
-        {
-            MemoryStream memoryStream = new MemoryStream(System.Convert.FromBase64String(data));
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            return binaryFormatter.UnsafeDeserialize(memoryStream, null);
-        }
-
-        public object DeserializeMethodResponse(string data)
-        {
-            MemoryStream memoryStream = new MemoryStream(System.Convert.FromBase64String(data));
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            return binaryFormatter.DeserializeMethodResponse(memoryStream, null, null);
-        }
-
-        public object UnsafeDerializeMethodResponse(string data)
-        {
-            MemoryStream memoryStream = new MemoryStream(System.Convert.FromBase64String(data));
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            return binaryFormatter.UnsafeDeserializeMethodResponse(memoryStream, null, null);
-        }
 
 
     }
